@@ -146,7 +146,7 @@ namespace Sudoku
         private Cell[] Transpose(int rowIndex, int rowLength, int colIndex, int colLength)
         {
             // Calculate maximum array size
-            Cell[] data = new Cell[rowLength * colLength];
+            Cell[] cells = new Cell[rowLength * colLength];
 
             int rowMax = rowIndex + rowLength;
             int colMax = colIndex + colLength;
@@ -156,23 +156,23 @@ namespace Sudoku
             for (int row = rowIndex; row < rowMax; row++)
                 for (int col = colIndex; col < colMax; col++)
                 {
-                    data[idx++] = _puzzle[row, col];
+                    cells[idx++] = _puzzle[row, col];
                 }
 
-            return data;
+            return cells;
         }
 
 
         #region -- Validation Routines --
         /// <summary>
-        /// Checks to see if a section of data is valid.  A section of data would be a single row, single column or single quadrient of data.
+        /// Checks to see if a section of cells is valid.  A section of cells would be a single row, single column or single quadrient of cells.
         /// </summary>
         /// <remarks>
-        /// All cells must have a value and the values must be unique within the section of data
+        /// All cells must have a value and the values must be unique within the section of cells
         /// </remarks>
-        /// <param name="data"></param>
+        /// <param name="cells"></param>
         /// <returns></returns>
-        private bool IsValid(Cell[] data)
+        private bool IsValid(Cell[] cells)
         {
             bool ret = true;
             bool[] verifier = new bool[MAX_VALUE];
@@ -180,17 +180,17 @@ namespace Sudoku
             /*
              * The idea is simple... 
              * Use a verifying array to hold true/false values.
-             * Iterate through the section of data
-             * When iterating through the data array, use the cell's value (minus 1) as the index to the verifier array to set the value to true
-             * After the data array has been iterated all the way through, then check the verifier array.
-             * If all values are true, then the section of data is valid
+             * Iterate through the section of cells
+             * When iterating through the cells array, use the cell's value (minus 1) as the index to the verifier array to set the value to true
+             * After the cells array has been iterated all the way through, then check the verifier array.
+             * If all values are true, then the section of cells is valid
              */
 
-            // Iterate through the section of data array
-            int maxSize = data.Length;
+            // Iterate through the section of cells array
+            int maxSize = cells.Length;
             for (int idx = 0; idx < maxSize; idx++)
             {
-                Cell cell = data[idx];
+                Cell cell = cells[idx];
                 if (cell.Value.HasValue)
                     verifier[cell.Value.Value - 1] = true;
             }
