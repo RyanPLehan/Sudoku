@@ -172,7 +172,7 @@ namespace Sudoku
         /// </remarks>
         /// <param name="cells"></param>
         /// <returns></returns>
-        private bool IsValid(Cell[] cells)
+        private bool IsValid(IEnumerable<Cell> cells)
         {
             bool ret = true;
             bool[] verifier = new bool[MAX_VALUE];
@@ -182,18 +182,17 @@ namespace Sudoku
              * Use a verifying array to hold true/false values.
              * Iterate through the section of cells
              * When iterating through the cells array, use the cell's value (minus 1) as the index to the verifier array to set the value to true
-             * After the cells array has been iterated all the way through, then check the verifier array.
+             * After the cells has been iterated all the way through, then check the verifier array.
              * If all values are true, then the section of cells is valid
              */
 
-            // Iterate through the section of cells array
-            int maxSize = cells.Length;
-            for (int idx = 0; idx < maxSize; idx++)
+            // Iterate through the section of cells 
+            foreach (Cell cell in cells)
             {
-                Cell cell = cells[idx];
                 if (cell.Value.HasValue)
                     verifier[cell.Value.Value - 1] = true;
             }
+
 
             // Now iterate through verifier
             // Use the logical operator as a quick checker
@@ -210,7 +209,7 @@ namespace Sudoku
         /// <param name="value"></param>
         /// <param name="cells"></param>
         /// <returns></returns>
-        private bool IsExistValue(byte value, Cell[] cells)
+        private bool IsExistValue(byte value, IEnumerable<Cell> cells)
         {
             return cells.Any(x => x.Value.GetValueOrDefault() == value);
         }
