@@ -9,15 +9,13 @@ namespace PuzzleTest
     [TestClass]
     public class PuzzleTest
     {
-        private Puzzle _puzzle;
-
         /// <summary>
         /// Populate each Puzzle cell with a random value
         /// </summary>
         /// <param name="puzzle"></param>
         private void PopulateRandomValues(Puzzle puzzle)
         {
-            IEnumerable<Puzzle.Cell> cells = _puzzle.GetCells();
+            IEnumerable<Puzzle.Cell> cells = puzzle.GetCells();
             Random rand = new Random();
 
             foreach (var cell in cells)
@@ -50,7 +48,7 @@ namespace PuzzleTest
             for (int row = 0; row < Puzzle.PUZZLE_GRID_SIZE; row++)
                 for (int col = 0; col < Puzzle.PUZZLE_GRID_SIZE; col++)
                 {
-                    _puzzle.GetCell(row, col).Value = values[row, col];
+                    puzzle.GetCell(row, col).Value = values[row, col];
                 }
         }
 
@@ -82,7 +80,7 @@ namespace PuzzleTest
                 {
                     if (values[row, col].HasValue)
                     {
-                        cell = _puzzle.GetCell(row, col);
+                        cell = puzzle.GetCell(row, col);
                         cell.Value = values[row, col];
                         cell.IsLocked = true;
                     }
@@ -96,7 +94,7 @@ namespace PuzzleTest
         private void DisplayPuzzle(Puzzle puzzle)
         {
             int cnt = 1;
-            IEnumerable<Puzzle.Cell> cells = _puzzle.GetCells();
+            IEnumerable<Puzzle.Cell> cells = puzzle.GetCells();
 
             foreach (var cell in cells)
             {
@@ -133,82 +131,76 @@ namespace PuzzleTest
 
         private void LockAllCellValues(Puzzle puzzle)
         {
-            IEnumerable<Puzzle.Cell> cells = _puzzle.GetCells();
+            IEnumerable<Puzzle.Cell> cells = puzzle.GetCells();
             foreach (Puzzle.Cell cell in cells)
                 cell.IsLocked = true;
         }
 
 
-        [TestInitialize]
-        public void Initialize()
-        {
-            _puzzle = new Puzzle();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            _puzzle = null;
-        }
-
         [TestMethod]
         public void TestIsComplete_False()
         {
-            Assert.IsFalse(_puzzle.IsComplete());
+            Puzzle puzzle = new Puzzle();
+            Assert.IsFalse(puzzle.IsComplete());
         }
 
         [TestMethod]
         public void TestIsComplete_True()
         {
-            PopulateRandomValues(_puzzle);
-            DisplayPuzzle(_puzzle);
-            Assert.IsTrue(_puzzle.IsComplete());
+            Puzzle puzzle = new Puzzle();
+            PopulateRandomValues(puzzle);
+            DisplayPuzzle(puzzle);
+            Assert.IsTrue(puzzle.IsComplete());
         }
 
         [TestMethod]
         public void TestIsPuzzleSolved_False()
         {
-            PopulateRandomValues(_puzzle);
-            DisplayPuzzle(_puzzle);
-            Assert.IsFalse(_puzzle.IsSolved());
+            Puzzle puzzle = new Puzzle();
+            PopulateRandomValues(puzzle);
+            DisplayPuzzle(puzzle);
+            Assert.IsFalse(puzzle.IsSolved());
         }
 
         [TestMethod]
         public void TestIsPuzzleSolved_True()
         {
-            PopulateSolvedValues(_puzzle);
-            DisplayPuzzle(_puzzle);
-            Assert.IsTrue(_puzzle.IsSolved());
+            Puzzle puzzle = new Puzzle();
+            PopulateSolvedValues(puzzle);
+            DisplayPuzzle(puzzle);
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
         [TestMethod]
         public void TestClear()
         {
-            PopulateSolvedValues(_puzzle);
-            LockCellValues(_puzzle);
-            DisplayPuzzle(_puzzle);
+            Puzzle puzzle = new Puzzle();
+            PopulateSolvedValues(puzzle);
+            LockCellValues(puzzle);
+            DisplayPuzzle(puzzle);
 
-            _puzzle.Clear();
+            puzzle.Clear();
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(_puzzle);
+            DisplayPuzzle(puzzle);
 
-            Assert.IsFalse(_puzzle.IsComplete());
+            Assert.IsFalse(puzzle.IsComplete());
         }
 
         [TestMethod]
         public void TestClearAll()
         {
-            PopulateSolvedValues(_puzzle);
-            LockCellValues(_puzzle);
-            DisplayPuzzle(_puzzle);
+            Puzzle puzzle = new Puzzle();
+            PopulateSolvedValues(puzzle);
+            LockCellValues(puzzle);
+            DisplayPuzzle(puzzle);
 
-            _puzzle.ClearAll();
+            puzzle.ClearAll();
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(_puzzle);
+            DisplayPuzzle(puzzle);
 
-            Assert.IsFalse(_puzzle.IsComplete());
+            Assert.IsFalse(puzzle.IsComplete());
         }
 
         /// <summary>
@@ -217,9 +209,10 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Empty()
         {
-            _puzzle.Solve();
-            DisplayPuzzle(_puzzle);
-            Assert.IsTrue(_puzzle.IsSolved());
+            Puzzle puzzle = new Puzzle();
+            puzzle.Solve();
+            DisplayPuzzle(puzzle);
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
         /// <summary>
@@ -228,15 +221,16 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Locked_1()
         {
-            PopulateSolvedValues(_puzzle);
-            LockCellValues(_puzzle);
-            DisplayPuzzle(_puzzle);
+            Puzzle puzzle = new Puzzle();
+            PopulateSolvedValues(puzzle);
+            LockCellValues(puzzle);
+            DisplayPuzzle(puzzle);
 
-            _puzzle.Solve();
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(_puzzle);
-            Assert.IsTrue(_puzzle.IsSolved());
+            DisplayPuzzle(puzzle);
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
 
@@ -246,19 +240,20 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Locked_2()
         {
-            PopulateSolvedValues(_puzzle);
-            LockAllCellValues(_puzzle);
-            DisplayPuzzle(_puzzle);
+            Puzzle puzzle = new Puzzle();
+            PopulateSolvedValues(puzzle);
+            LockAllCellValues(puzzle);
+            DisplayPuzzle(puzzle);
 
             // Unlock the last two values
-            _puzzle.GetCell(8, 7).IsLocked = false;
-            _puzzle.GetCell(8, 8).IsLocked = false;
+            puzzle.GetCell(8, 7).IsLocked = false;
+            puzzle.GetCell(8, 8).IsLocked = false;
 
-            _puzzle.Solve();
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(_puzzle);
-            Assert.IsTrue(_puzzle.IsSolved());
+            DisplayPuzzle(puzzle);
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
 
@@ -268,19 +263,20 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Locked_3()
         {
-            PopulateSolvedValues(_puzzle);
-            LockAllCellValues(_puzzle);
-            DisplayPuzzle(_puzzle);
+            Puzzle puzzle = new Puzzle();
+            PopulateSolvedValues(puzzle);
+            LockAllCellValues(puzzle);
+            DisplayPuzzle(puzzle);
 
             // Unlock the last two values
-            _puzzle.GetCell(0, 0).IsLocked = false;
-            _puzzle.GetCell(0, 1).IsLocked = false;
+            puzzle.GetCell(0, 0).IsLocked = false;
+            puzzle.GetCell(0, 1).IsLocked = false;
 
-            _puzzle.Solve();
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(_puzzle);
-            Assert.IsTrue(_puzzle.IsSolved());
+            DisplayPuzzle(puzzle);
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
 
@@ -290,15 +286,16 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_AllLocked()
         {
-            PopulateSolvedValues(_puzzle);
-            LockAllCellValues(_puzzle);
-            DisplayPuzzle(_puzzle);
+            Puzzle puzzle = new Puzzle();
+            PopulateSolvedValues(puzzle);
+            LockAllCellValues(puzzle);
+            DisplayPuzzle(puzzle);
 
-            _puzzle.Solve();
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(_puzzle);
-            Assert.IsTrue(_puzzle.IsSolved());
+            DisplayPuzzle(puzzle);
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
 
@@ -309,14 +306,15 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Hardest()
         {
-            PopulateHardestValues(_puzzle);
-            DisplayPuzzle(_puzzle);
+            Puzzle puzzle = new Puzzle();
+            PopulateHardestValues(puzzle);
+            DisplayPuzzle(puzzle);
 
-            _puzzle.Solve();
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(_puzzle);
-            Assert.IsTrue(_puzzle.IsSolved());
+            DisplayPuzzle(puzzle);
+            Assert.IsTrue(puzzle.IsSolved());
         }
     }
 }
