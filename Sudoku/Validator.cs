@@ -26,35 +26,7 @@ namespace Sudoku
         }
 
 
-        /// <summary>
-        /// Checks to see if cell's value already exists in the cell's current row, column and quadrient
-        /// </summary>
-        /// <param name="cells">2 Dimensional array of cells</param>
-        /// <param name="cell"></param>
-        /// <returns></returns>
-        private static bool IsExistValue(IEnumerable<Puzzle.Cell> cells, Puzzle.Cell cell)
-        {
-            bool ret = false;
-
-
-            // Check current row to determine if the cell's value already exists by iterating through all the columns in that row
-            // Need to remove the cell that we are checking against
-
-
-            // Check current column to determine if the cell's value already exists by iterating through all the rows in that column
-            // Need to remove the cell that we are checking against
-
-
-            // Check current quadrient to determine if the cell's value already exists by iterating through all the rows and columns in that quadrient
-            // Determine quadrient
-            int quadRow = (cell.Row / Puzzle.QUADRIENT_GRID_SIZE);
-            int quadCol = (cell.Column / Puzzle.QUADRIENT_GRID_SIZE);
-
-
-            return ret;
-        }
-
-
+       
         /// <summary>
         /// Checks to see if cell's value already exists in the cell's current row, column and quadrient
         /// </summary>
