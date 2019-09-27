@@ -7,20 +7,20 @@ using Sudoku;
 namespace PuzzleTest
 {
     [TestClass]
-    public class PuzzleTest
+    public class PuzzleMonolithicTest
     {
         /// <summary>
-        /// Populate each Puzzle cell with a random value
+        /// Populate each PuzzleMonolithic cell with a random value
         /// </summary>
         /// <param name="puzzle"></param>
-        private void PopulateRandomValues(Puzzle puzzle)
+        private void PopulateRandomValues(PuzzleMonolithic puzzle)
         {
-            IEnumerable<Puzzle.Cell> cells = puzzle.GetCells();
+            IEnumerable<PuzzleMonolithic.Cell> cells = puzzle.GetCells();
             Random rand = new Random();
 
             foreach (var cell in cells)
             {
-                cell.Value = Convert.ToByte((rand.Next() % Puzzle.MAX_VALUE) + 1);
+                cell.Value = Convert.ToByte((rand.Next() % PuzzleMonolithic.MAX_VALUE) + 1);
             }
         }
 
@@ -28,7 +28,7 @@ namespace PuzzleTest
         /// Populate each cell with a value such that the puzzle is considered solved
         /// </summary>
         /// <param name="puzzle"></param>
-        private void PopulateSolvedValues(Puzzle puzzle)
+        private void PopulateSolvedValues(PuzzleMonolithic puzzle)
         {
             byte[,] values = {
                                 { 1,2,3,4,5,6,7,8,9 },
@@ -45,8 +45,8 @@ namespace PuzzleTest
                              };
 
             // Populate each cell with a value
-            for (int row = 0; row < Puzzle.PUZZLE_GRID_SIZE; row++)
-                for (int col = 0; col < Puzzle.PUZZLE_GRID_SIZE; col++)
+            for (int row = 0; row < PuzzleMonolithic.PUZZLE_GRID_SIZE; row++)
+                for (int col = 0; col < PuzzleMonolithic.PUZZLE_GRID_SIZE; col++)
                 {
                     puzzle.GetCell(row, col).Value = values[row, col];
                 }
@@ -54,12 +54,12 @@ namespace PuzzleTest
 
 
         /// <summary>
-        /// Populate Puzzle with data from "World's hardest Sudoku" puzzle
+        /// Populate PuzzleMonolithic with data from "World's hardest Sudoku" puzzle
         /// </summary>
         /// <param name="puzzle"></param>
-        private void PopulateHardestValues(Puzzle puzzle)
+        private void PopulateHardestValues(PuzzleMonolithic puzzle)
         {
-            Puzzle.Cell cell = null;
+            PuzzleMonolithic.Cell cell = null;
             byte?[,] values = {
                                 { 8,null,null,null,null,null,null,null,null },
                                 { null,null,3,6,null,null,null,null,null },
@@ -75,8 +75,8 @@ namespace PuzzleTest
                              };
 
             // Populate each cell with a value
-            for (int row = 0; row < Puzzle.PUZZLE_GRID_SIZE; row++)
-                for (int col = 0; col < Puzzle.PUZZLE_GRID_SIZE; col++)
+            for (int row = 0; row < PuzzleMonolithic.PUZZLE_GRID_SIZE; row++)
+                for (int col = 0; col < PuzzleMonolithic.PUZZLE_GRID_SIZE; col++)
                 {
                     if (values[row, col].HasValue)
                     {
@@ -91,27 +91,27 @@ namespace PuzzleTest
         /// Display the sudoku puzzle 
         /// </summary>
         /// <param name="puzzle"></param>
-        private void DisplayPuzzle(Puzzle puzzle)
+        private void DisplayPuzzle(PuzzleMonolithic puzzle)
         {
             int cnt = 1;
-            IEnumerable<Puzzle.Cell> cells = puzzle.GetCells();
+            IEnumerable<PuzzleMonolithic.Cell> cells = puzzle.GetCells();
 
             foreach (var cell in cells)
             {
                 Console.Write($" {cell.ToString()} ");
 
-                if (cnt % Puzzle.QUADRIENT_GRID_SIZE == 0 &&
-                    cnt % Puzzle.PUZZLE_GRID_SIZE != 0)
+                if (cnt % PuzzleMonolithic.QUADRIENT_GRID_SIZE == 0 &&
+                    cnt % PuzzleMonolithic.PUZZLE_GRID_SIZE != 0)
                     Console.Write(" | ");
 
 
                 // Determine if we need a blank line
-                if (cnt % Puzzle.PUZZLE_GRID_SIZE == 0)
+                if (cnt % PuzzleMonolithic.PUZZLE_GRID_SIZE == 0)
                 {
                     Console.WriteLine();
-                    if (cnt % (Puzzle.QUADRIENT_GRID_SIZE * Puzzle.PUZZLE_GRID_SIZE) == 0)
+                    if (cnt % (PuzzleMonolithic.QUADRIENT_GRID_SIZE * PuzzleMonolithic.PUZZLE_GRID_SIZE) == 0)
                     {
-                        for (int i = 0; i < Puzzle.PUZZLE_GRID_SIZE; i++)
+                        for (int i = 0; i < PuzzleMonolithic.PUZZLE_GRID_SIZE; i++)
                             Console.Write("---");
 
                         Console.Write("---");
@@ -123,16 +123,16 @@ namespace PuzzleTest
             }
         }
 
-        private void LockCellValues(Puzzle puzzle)
+        private void LockCellValues(PuzzleMonolithic puzzle)
         {
-            for (int i = 0; i < Puzzle.PUZZLE_GRID_SIZE; i++)
+            for (int i = 0; i < PuzzleMonolithic.PUZZLE_GRID_SIZE; i++)
                 puzzle.GetCell(i, i).IsLocked = true;
         }
 
-        private void LockAllCellValues(Puzzle puzzle)
+        private void LockAllCellValues(PuzzleMonolithic puzzle)
         {
-            IEnumerable<Puzzle.Cell> cells = puzzle.GetCells();
-            foreach (Puzzle.Cell cell in cells)
+            IEnumerable<PuzzleMonolithic.Cell> cells = puzzle.GetCells();
+            foreach (PuzzleMonolithic.Cell cell in cells)
                 cell.IsLocked = true;
         }
 
@@ -140,41 +140,41 @@ namespace PuzzleTest
         [TestMethod]
         public void TestIsComplete_False()
         {
-            Puzzle puzzle = new Puzzle();
-            Assert.IsFalse(Validator.IsComplete(puzzle));
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
+            Assert.IsFalse(puzzle.IsComplete());
         }
 
         [TestMethod]
         public void TestIsComplete_True()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateRandomValues(puzzle);
             DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsComplete(puzzle));
+            Assert.IsTrue(puzzle.IsComplete());
         }
 
         [TestMethod]
         public void TestIsPuzzleSolved_False()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateRandomValues(puzzle);
             DisplayPuzzle(puzzle);
-            Assert.IsFalse(Validator.IsSolved(puzzle));
+            Assert.IsFalse(puzzle.IsSolved());
         }
 
         [TestMethod]
         public void TestIsPuzzleSolved_True()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateSolvedValues(puzzle);
             DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
         [TestMethod]
         public void TestClear()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateSolvedValues(puzzle);
             LockCellValues(puzzle);
             DisplayPuzzle(puzzle);
@@ -184,13 +184,13 @@ namespace PuzzleTest
             Console.WriteLine();
             DisplayPuzzle(puzzle);
 
-            Assert.IsFalse(Validator.IsComplete(puzzle));
+            Assert.IsFalse(puzzle.IsComplete());
         }
 
         [TestMethod]
         public void TestClearAll()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateSolvedValues(puzzle);
             LockCellValues(puzzle);
             DisplayPuzzle(puzzle);
@@ -200,7 +200,7 @@ namespace PuzzleTest
             Console.WriteLine();
             DisplayPuzzle(puzzle);
 
-            Assert.IsFalse(Validator.IsComplete(puzzle));
+            Assert.IsFalse(puzzle.IsComplete());
         }
 
         /// <summary>
@@ -209,10 +209,10 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Empty()
         {
-            Puzzle puzzle = new Puzzle();
-            Solver.Solve(puzzle);
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
+            puzzle.Solve();
             DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
         /// <summary>
@@ -221,16 +221,16 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Locked_1()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateSolvedValues(puzzle);
             LockCellValues(puzzle);
             DisplayPuzzle(puzzle);
 
-            Solver.Solve(puzzle);
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
             DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
 
@@ -240,7 +240,7 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Locked_2()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateSolvedValues(puzzle);
             LockAllCellValues(puzzle);
             DisplayPuzzle(puzzle);
@@ -249,11 +249,11 @@ namespace PuzzleTest
             puzzle.GetCell(8, 7).IsLocked = false;
             puzzle.GetCell(8, 8).IsLocked = false;
 
-            Solver.Solve(puzzle);
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
             DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
 
@@ -263,7 +263,7 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Locked_3()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateSolvedValues(puzzle);
             LockAllCellValues(puzzle);
             DisplayPuzzle(puzzle);
@@ -272,11 +272,11 @@ namespace PuzzleTest
             puzzle.GetCell(0, 0).IsLocked = false;
             puzzle.GetCell(0, 1).IsLocked = false;
 
-            Solver.Solve(puzzle);
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
             DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
 
@@ -286,16 +286,16 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_AllLocked()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateSolvedValues(puzzle);
             LockAllCellValues(puzzle);
             DisplayPuzzle(puzzle);
 
-            Solver.Solve(puzzle);
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
             DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            Assert.IsTrue(puzzle.IsSolved());
         }
 
 
@@ -306,15 +306,15 @@ namespace PuzzleTest
         [TestMethod]
         public void TestSolve_Hardest()
         {
-            Puzzle puzzle = new Puzzle();
+            PuzzleMonolithic puzzle = new PuzzleMonolithic();
             PopulateHardestValues(puzzle);
             DisplayPuzzle(puzzle);
 
-            Solver.Solve(puzzle);
+            puzzle.Solve();
             Console.WriteLine();
             Console.WriteLine();
             DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            Assert.IsTrue(puzzle.IsSolved());
         }
     }
 }
