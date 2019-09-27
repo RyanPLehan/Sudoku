@@ -210,9 +210,9 @@ namespace PuzzleTest
         public void TestSolve_Empty()
         {
             Puzzle puzzle = new Puzzle();
-            Solver.Solve(puzzle);
-            DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            Puzzle solved = Solver.Solve(puzzle);
+            DisplayPuzzle(solved);
+            Assert.IsTrue(Validator.IsSolved(solved));
         }
 
         /// <summary>
@@ -222,15 +222,16 @@ namespace PuzzleTest
         public void TestSolve_Locked_1()
         {
             Puzzle puzzle = new Puzzle();
+            
             PopulateSolvedValues(puzzle);
             LockCellValues(puzzle);
             DisplayPuzzle(puzzle);
 
-            Solver.Solve(puzzle);
+            Puzzle solved = Solver.Solve(puzzle);
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            DisplayPuzzle(solved);
+            Assert.IsTrue(Validator.IsSolved(solved));
         }
 
 
@@ -249,11 +250,11 @@ namespace PuzzleTest
             puzzle.GetCell(8, 7).IsLocked = false;
             puzzle.GetCell(8, 8).IsLocked = false;
 
-            Solver.Solve(puzzle);
+            Puzzle solved = Solver.Solve(puzzle);
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            DisplayPuzzle(solved);
+            Assert.IsTrue(Validator.IsSolved(solved));
         }
 
 
@@ -272,11 +273,11 @@ namespace PuzzleTest
             puzzle.GetCell(0, 0).IsLocked = false;
             puzzle.GetCell(0, 1).IsLocked = false;
 
-            Solver.Solve(puzzle);
+            Puzzle solved = Solver.Solve(puzzle);
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            DisplayPuzzle(solved);
+            Assert.IsTrue(Validator.IsSolved(solved));
         }
 
 
@@ -291,11 +292,11 @@ namespace PuzzleTest
             LockAllCellValues(puzzle);
             DisplayPuzzle(puzzle);
 
-            Solver.Solve(puzzle);
+            Puzzle solved = Solver.Solve(puzzle);
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            DisplayPuzzle(solved);
+            Assert.IsTrue(Validator.IsSolved(solved));
         }
 
 
@@ -310,11 +311,73 @@ namespace PuzzleTest
             PopulateHardestValues(puzzle);
             DisplayPuzzle(puzzle);
 
-            Solver.Solve(puzzle);
+            Puzzle solved = Solver.Solve(puzzle);
             Console.WriteLine();
             Console.WriteLine();
-            DisplayPuzzle(puzzle);
-            Assert.IsTrue(Validator.IsSolved(puzzle));
+            DisplayPuzzle(solved);
+            Assert.IsTrue(Validator.IsSolved(solved));
+        }
+
+
+
+        /// <summary>
+        /// Test to generate a puzzle with 5 random values
+        /// </summary>
+        [TestMethod]
+        public void Test_Generate_5()
+        {
+            const int NUM = 5;
+
+            Generator gen = new Generator(NUM);
+            gen.Generate();
+            DisplayPuzzle(gen.GeneratedPuzzle);
+
+            Console.WriteLine();
+            Console.WriteLine();
+            DisplayPuzzle(gen.SolvedPuzzle);
+            Assert.IsTrue(Validator.IsSolved(gen.SolvedPuzzle));
+            Assert.AreEqual(NUM, gen.NumberOfRandomValues);
+        }
+
+
+        /// <summary>
+        /// Test to generate a puzzle with 10 random values
+        /// </summary>
+        [TestMethod]
+        public void Test_Generate_10()
+        {
+            const int NUM = 10;
+
+            Generator gen = new Generator(NUM);
+            gen.Generate();
+            DisplayPuzzle(gen.GeneratedPuzzle);
+
+            Console.WriteLine();
+            Console.WriteLine();
+            DisplayPuzzle(gen.SolvedPuzzle);
+            Assert.IsTrue(Validator.IsSolved(gen.SolvedPuzzle));
+            Assert.AreEqual(NUM, gen.NumberOfRandomValues);
+        }
+
+
+
+        /// <summary>
+        /// Test to generate a puzzle with 15 random values
+        /// </summary>
+        [TestMethod]
+        public void Test_Generate_15()
+        {
+            const int NUM = 15;
+
+            Generator gen = new Generator(NUM);
+            gen.Generate();
+            DisplayPuzzle(gen.GeneratedPuzzle);
+
+            Console.WriteLine();
+            Console.WriteLine();
+            DisplayPuzzle(gen.SolvedPuzzle);
+            Assert.IsTrue(Validator.IsSolved(gen.SolvedPuzzle));
+            Assert.AreEqual(NUM, gen.NumberOfRandomValues);
         }
     }
 }

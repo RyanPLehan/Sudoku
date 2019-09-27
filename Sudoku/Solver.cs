@@ -171,16 +171,20 @@ namespace Sudoku
         /// <remarks>
         /// This assumes that the puzzle is solvable.  Meaning, there was no malicious attempt to lock cell values so that the solver would be in an infinite loop 
         /// </remarks>
-        public static void Solve(Puzzle puzzle)
+        public static Puzzle Solve(Puzzle puzzle)
         {
+            Puzzle ret = puzzle.Clone();
+
             // Clear all non-Locked values
-            puzzle.Clear();
+            ret.Clear();
 
             // Call recursive function to do all the work
-            SolveRecursive(puzzle);
+            // SolveRecursive(ret);
 
             // Call non-recursive function to do all the work
-            // SolveNonRecursive(puzzle);
+            SolveNonRecursive(ret);
+
+            return ret;
         }
 
     }

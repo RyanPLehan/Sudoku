@@ -35,31 +35,20 @@ namespace Sudoku
         private static bool IsExistValue(IEnumerable<Puzzle.Cell> cells, Puzzle.Cell cell)
         {
             bool ret = false;
-            Puzzle.Cell[] filteredCells = null;
+
 
             // Check current row to determine if the cell's value already exists by iterating through all the columns in that row
             // Need to remove the cell that we are checking against
-            filteredCells = cells.Where(x => x.Column != cell.Column)
-                                 .ToArray();
-            ret = ret || IsExistValue(cell.Value.GetValueOrDefault(), filteredCells);
 
 
             // Check current column to determine if the cell's value already exists by iterating through all the rows in that column
             // Need to remove the cell that we are checking against
-            filteredCells = cells.Where(x => x.Row != cell.Row)
-                                 .ToArray();
-            ret = ret || IsExistValue(cell.Value.GetValueOrDefault(), filteredCells);
 
 
             // Check current quadrient to determine if the cell's value already exists by iterating through all the rows and columns in that quadrient
             // Determine quadrient
             int quadRow = (cell.Row / Puzzle.QUADRIENT_GRID_SIZE);
             int quadCol = (cell.Column / Puzzle.QUADRIENT_GRID_SIZE);
-
-            // Need to remove the cell that we are checking against
-            filteredCells = cells.Where(x => !((x.Row == cell.Row) && (x.Column == cell.Column)))
-                                 .ToArray();
-            ret = ret || IsExistValue(cell.Value.GetValueOrDefault(), filteredCells);
 
 
             return ret;
@@ -75,6 +64,7 @@ namespace Sudoku
         {
             bool ret = false;
             Puzzle.Cell[] cells = null;
+            Puzzle.Cell[] filteredCells = null;
 
             // Check current row to determine if the cell's value already exists by iterating through all the columns in that row
             // Need to remove the cell that we are checking against
@@ -83,8 +73,11 @@ namespace Sudoku
                                                  1,
                                                  0,
                                                  Puzzle.PUZZLE_GRID_SIZE);
-                                
-            ret = ret || IsExistValue(cells, cell);
+
+            // Need to remove the cell that we are checking against
+            filteredCells = cells.Where(x => x.Column != cell.Column)
+                                 .ToArray();
+            ret = ret || IsExistValue(cell.Value.GetValueOrDefault(), filteredCells);
 
 
             // Check current column to determine if the cell's value already exists by iterating through all the rows in that column
@@ -95,7 +88,10 @@ namespace Sudoku
                                                  cell.Column,
                                                  1);
 
-            ret = ret || IsExistValue(cells, cell);
+            // Need to remove the cell that we are checking against
+            filteredCells = cells.Where(x => x.Row != cell.Row)
+                                 .ToArray();
+            ret = ret || IsExistValue(cell.Value.GetValueOrDefault(), filteredCells);
 
 
             // Check current quadrient to determine if the cell's value already exists by iterating through all the rows and columns in that quadrient
@@ -110,7 +106,10 @@ namespace Sudoku
                                                 (quadCol * Puzzle.QUADRIENT_GRID_SIZE),
                                                 Puzzle.QUADRIENT_GRID_SIZE);
 
-            ret = ret || IsExistValue(cells, cell);
+            // Need to remove the cell that we are checking against
+            filteredCells = cells.Where(x => !((x.Row == cell.Row) && (x.Column == cell.Column)))
+                                 .ToArray();
+            ret = ret || IsExistValue(cell.Value.GetValueOrDefault(), filteredCells);
 
 
             return ret;

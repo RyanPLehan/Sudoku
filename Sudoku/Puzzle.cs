@@ -18,6 +18,7 @@ namespace Sudoku
         public const byte MAX_VALUE = 9;                // 9
         public const byte PUZZLE_GRID_SIZE = 9;         // 9x9 grid 9
         public const byte QUADRIENT_GRID_SIZE = 3;      // 3x3 grid 3
+        public const byte MAX_CELLS = PUZZLE_GRID_SIZE * PUZZLE_GRID_SIZE;
         #endregion
 
         #region Classes
@@ -111,7 +112,6 @@ namespace Sudoku
         #endregion
 
         #region Methods
-        #region --Private
         private void Clear(bool includeLockedValues)
         {
             IEnumerable<Cell> cells = GetCells();           
@@ -138,9 +138,9 @@ namespace Sudoku
 
             return puzzle;
         }
-        #endregion
 
-        #region --Public
+
+
         /// <summary>
         /// Clear the entire puzzle of all non-Locked values
         /// </summary>
@@ -229,7 +229,6 @@ namespace Sudoku
         {
             return _puzzle;
         }
-        #endregion
         #endregion
     }
 }
