@@ -39,7 +39,6 @@ namespace Sudoku
             Puzzle.Cell[] filteredCells = null;
 
             // Check current row to determine if the cell's value already exists by iterating through all the columns in that row
-            // Need to remove the cell that we are checking against
             cells = Utils.Transpose<Puzzle.Cell>(puzzle.ToArray(),
                                                  cell.Row,
                                                  1,
@@ -53,7 +52,6 @@ namespace Sudoku
 
 
             // Check current column to determine if the cell's value already exists by iterating through all the rows in that column
-            // Need to remove the cell that we are checking against
             cells = Utils.Transpose<Puzzle.Cell>(puzzle.ToArray(),
                                                  0,
                                                  Puzzle.PUZZLE_GRID_SIZE,
@@ -71,7 +69,6 @@ namespace Sudoku
             int quadRow = (cell.Row / Puzzle.QUADRIENT_GRID_SIZE);
             int quadCol = (cell.Column / Puzzle.QUADRIENT_GRID_SIZE);
 
-            // Need to remove the cell that we are checking against
             cells = Utils.Transpose<Puzzle.Cell>(puzzle.ToArray(),
                                                 (quadRow * Puzzle.QUADRIENT_GRID_SIZE),
                                                 Puzzle.QUADRIENT_GRID_SIZE,
