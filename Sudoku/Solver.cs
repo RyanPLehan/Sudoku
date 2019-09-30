@@ -23,11 +23,11 @@ namespace Sudoku
         private static void SolveRecursive(Puzzle puzzle)
         {
             // Much easier to work with a single dimensional array, so lets transpose it
-            Puzzle.Cell[] cells = Utils.Transpose(puzzle.ToArray(),
-                                                  0,
-                                                  Puzzle.PUZZLE_GRID_SIZE,
-                                                  0,
-                                                  Puzzle.PUZZLE_GRID_SIZE);
+            Puzzle.Cell[] cells = Utils.Transpose<Puzzle.Cell>(puzzle.ToArray(),
+                                                               0,
+                                                               Puzzle.PUZZLE_GRID_SIZE,
+                                                               0,
+                                                               Puzzle.PUZZLE_GRID_SIZE);
 
             // Call recursive function to do all the work
             SolveRecursive(puzzle, cells, 0);
@@ -103,11 +103,11 @@ namespace Sudoku
         private static void SolveNonRecursive(Puzzle puzzle)
         {
             // Much easier to work with a single dimensional array, so lets transpose it
-            Puzzle.Cell[] cells = Utils.Transpose(puzzle.ToArray(),
-                                                  0,
-                                                  Puzzle.PUZZLE_GRID_SIZE,
-                                                  0,
-                                                  Puzzle.PUZZLE_GRID_SIZE);
+            Puzzle.Cell[] cells = Utils.Transpose<Puzzle.Cell>(puzzle.ToArray(),
+                                                               0,
+                                                               Puzzle.PUZZLE_GRID_SIZE,
+                                                               0,
+                                                               Puzzle.PUZZLE_GRID_SIZE);
 
             int minIndex = cells.GetLowerBound(0);
             int maxIndex = cells.GetUpperBound(0);

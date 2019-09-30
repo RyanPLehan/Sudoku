@@ -151,20 +151,20 @@ namespace Sudoku
             // Check each row by copying the row data (ie columns) to a single array
             // Notice that the ret value is also being checked
             for (int row = 0; row < Puzzle.PUZZLE_GRID_SIZE && ret; row++)
-                ret = ret && Validator.IsValid(Utils.Transpose(puzzle.ToArray(),
-                                                               row,
-                                                               1,
-                                                               0,
-                                                               Puzzle.PUZZLE_GRID_SIZE));
+                ret = ret && Validator.IsValid(Utils.Transpose<Puzzle.Cell>(puzzle.ToArray(),
+                                                                            row,
+                                                                            1,
+                                                                            0,
+                                                                            Puzzle.PUZZLE_GRID_SIZE));
 
             // Check each col by copying the col data (ie rows) to a single array
             // Notice that the ret value is also being checked
             for (int col = 0; col < Puzzle.PUZZLE_GRID_SIZE && ret; col++)
-                ret = ret && Validator.IsValid(Utils.Transpose(puzzle.ToArray(),
-                                                               0,
-                                                               Puzzle.PUZZLE_GRID_SIZE,
-                                                               col,
-                                                               1));
+                ret = ret && Validator.IsValid(Utils.Transpose<Puzzle.Cell>(puzzle.ToArray(),
+                                                                            0,
+                                                                            Puzzle.PUZZLE_GRID_SIZE,
+                                                                            col,
+                                                                            1));
 
 
             // There are 9 quardrients in the puzzle.
@@ -173,11 +173,11 @@ namespace Sudoku
             for (int quadRow = 0; quadRow < Puzzle.QUADRIENT_GRID_SIZE && ret; quadRow++)
                 for (int quadCol = 0; quadCol < Puzzle.QUADRIENT_GRID_SIZE && ret; quadCol++)
                 {
-                    ret = ret && Validator.IsValid(Utils.Transpose(puzzle.ToArray(),
-                                                                   (quadRow * Puzzle.QUADRIENT_GRID_SIZE),
-                                                                   Puzzle.QUADRIENT_GRID_SIZE,
-                                                                   (quadCol * Puzzle.QUADRIENT_GRID_SIZE),
-                                                                   Puzzle.QUADRIENT_GRID_SIZE));
+                    ret = ret && Validator.IsValid(Utils.Transpose<Puzzle.Cell>(puzzle.ToArray(),
+                                                                                (quadRow * Puzzle.QUADRIENT_GRID_SIZE),
+                                                                                Puzzle.QUADRIENT_GRID_SIZE,
+                                                                                (quadCol * Puzzle.QUADRIENT_GRID_SIZE),
+                                                                                Puzzle.QUADRIENT_GRID_SIZE));
                 }
 
             return ret;
