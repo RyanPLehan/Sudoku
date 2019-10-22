@@ -94,7 +94,6 @@ namespace Sudoku
         /// <returns></returns>
         internal static bool IsValid(IEnumerable<Puzzle.Cell> cells)
         {
-            bool ret = true;
             bool[] verifier = new bool[Puzzle.MAX_VALUE];
 
             /*
@@ -114,12 +113,8 @@ namespace Sudoku
             }
 
 
-            // Now iterate through verifier
-            // Use the logical operator as a quick checker
-            foreach (bool b in verifier)
-                ret = ret && b;
-
-            return ret;
+            // Check to see if there is any item in the array that is false, if so, then it is not valid
+            return !verifier.Any(x => x == false);
         }
 
 
