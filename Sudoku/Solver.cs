@@ -117,9 +117,6 @@ namespace Sudoku
             // Loop until we have either solved or exhusted our routine
             while (!Validator.IsSolved(puzzle) && index >= minIndex)
             {
-                // Change the index by the direction factor
-                index += directionFactor;
-
                 // Check to see if we have gone beyond the boundries, change the index factor
                 if (index > maxIndex)
                 {
@@ -161,6 +158,9 @@ namespace Sudoku
                     if (directionFactor == 0)
                         directionFactor = 1;
                 }
+
+                // Change the index by the direction factor
+                index += directionFactor;
             }
         }
 
@@ -179,7 +179,7 @@ namespace Sudoku
             ret.Clear();
 
             // Call recursive function to do all the work
-            // SolveRecursive(ret);
+            //SolveRecursive(ret);
 
             // Call non-recursive function to do all the work
             SolveNonRecursive(ret);

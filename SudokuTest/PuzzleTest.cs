@@ -88,6 +88,40 @@ namespace PuzzleTest
         }
 
         /// <summary>
+        /// Populate Puzzle with data from "World's hardest Sudoku" puzzle
+        /// </summary>
+        /// <param name="puzzle"></param>
+        private void PopulateActualPuzzleValues(Puzzle puzzle)
+        {
+            Puzzle.Cell cell = null;
+            byte?[,] values = {
+                                { null,null,null,null,9,null,null,1,null},
+                                { null,null,null,null,null,6,2,7,8 },
+                                { null,null,null,7,null,null,4,5,null },
+
+                                { null,null,3,null,2,null,null,6,null },
+                                { 4,null,null,8,null,9,null,null,7 },
+                                { null,1,null,null,3,null,5,null,null },
+
+                                { null,8,9,null,null,5,null,null,null },
+                                { 1,5,4,2,null,null,null,null,null },
+                                { null,2,null,null,6,null,null,null,null },
+                             };
+
+            // Populate each cell with a value
+            for (int row = 0; row < Puzzle.PUZZLE_GRID_SIZE; row++)
+                for (int col = 0; col < Puzzle.PUZZLE_GRID_SIZE; col++)
+                {
+                    if (values[row, col].HasValue)
+                    {
+                        cell = puzzle.GetCell(row, col);
+                        cell.Value = values[row, col];
+                        cell.IsLocked = true;
+                    }
+                }
+        }
+
+        /// <summary>
         /// Display the sudoku puzzle 
         /// </summary>
         /// <param name="puzzle"></param>
@@ -317,6 +351,25 @@ namespace PuzzleTest
             DisplayPuzzle(solved);
             Assert.IsTrue(Validator.IsSolved(solved));
         }
+
+
+        /// <summary>
+        /// Test to solve a puzzle with all values locked
+        /// </summary>
+        [TestMethod]
+        public void TestSolve_Actual()
+        {
+            Puzzle puzzle = new Puzzle();
+            PopulateActualPuzzleValues(puzzle);
+            DisplayPuzzle(puzzle);
+
+            Puzzle solved = Solver.Solve(puzzle);
+            Console.WriteLine();
+            Console.WriteLine();
+            DisplayPuzzle(solved);
+            Assert.IsTrue(Validator.IsSolved(solved));
+        }
+
 
 
 
